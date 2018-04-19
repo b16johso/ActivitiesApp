@@ -1,5 +1,6 @@
 package com.example.brom.activitiesapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 public class MainActivity extends AppCompatActivity {
     private String[] mountainNames = {"Matterhorn","Mont Blanc","Denali"};
+    private String[] mountainLocations = {"Alps","Alps","Alaska"};
+    private int[] mountainHeights ={4478,4808,6190};
+
     // Create ArrayLists from the raw data above and use these lists when populating your ListView.
 
     @Override
@@ -55,7 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
                 //here v is your ListItem's layout.
-                Toast.makeText(getApplicationContext(), mountainLocations[arg2] + ", " + mountainHeights[arg2] + "m", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(MainActivity.this, MountainDetailsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("NAME", mountainNames[arg2]);
+                extras.putString("LOCATION", mountainLocations[arg2]);
+                extras.putString("HEIGHT", String.valueOf(mountainHeights[arg2]));
+                myIntent.putExtras(extras);
+                startActivity(myIntent);
             }
         });
     }
